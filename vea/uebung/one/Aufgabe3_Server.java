@@ -2,8 +2,6 @@ package vea.uebung.one;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
@@ -49,9 +47,7 @@ public class Aufgabe3_Server {
 	}
 	
 	private static void handleConnection(Socket client) throws IOException {
-		
-		//System.out.println("handeConnection() gerufen");
-		
+				
 		Scanner in = new Scanner (client.getInputStream());
 		
 		PrintWriter out = new PrintWriter(client.getOutputStream(), true);
@@ -69,40 +65,6 @@ public class Aufgabe3_Server {
 		System.out.println(name + " hat den Chat verlassen.");
 		
 		return;
-		
-//		/*String op = "";
-//		String f1 = in.nextLine();
-//		String f2 = in.nextLine();
-//		
-//		String output = "";
-//		
-//		try {
-//			Class <?> klasse = Class.forName("tcp_server");
-//
-//			Method methode = klasse.getMethod(op, null);
-//			output = (String)methode.invoke(klasse.newInstance(), null);
-//			
-//		} catch (ClassNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (NoSuchMethodException e) {
-//			e.printStackTrace();
-//		} catch (IllegalArgumentException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IllegalAccessException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (InvocationTargetException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (InstantiationException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//
-//		
-//		out.println("Result: " + output);
 	}
 	
 
