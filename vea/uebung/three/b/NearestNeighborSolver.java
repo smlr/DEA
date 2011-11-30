@@ -174,7 +174,7 @@ public class NearestNeighborSolver extends Thread {
 		return result;
 	}
 
-	public double getLocalDinstance() {
+	public double getLocalDistance() {
 		return this.localDistance;
 	}
 	

@@ -98,7 +98,7 @@ public class ThreadStarter {
 		}
 		
 		for(int i = 0; i < cntPoints; i++) {
-			System.out.println(i + ": " + threads[i].getLocalDinstance() + ". Strecke: " + threads[i].__toString());
+			System.out.println(i + ": " + threads[i].getLocalDistance() + ". Strecke: " + threads[i].__toString());
 		}
 		
 		

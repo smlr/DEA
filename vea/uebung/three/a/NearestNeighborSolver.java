@@ -30,23 +30,23 @@ public class NearestNeighborSolver {
 	
 	public LinkedList<Integer> solve(int start) {
 		
-		System.out.println("result.contains(start): " + result.contains(start));
+		////System.out.println("result.contains(start): " + result.contains(start));
 		
 		if (!result.contains(start)) {
-			System.out.println("todo eins abziehen: " + this.todo);
+			////System.out.println("todo eins abziehen: " + this.todo);
 			if (--this.todo == 0) {
 				result.add(start);
 				return result;
 			}
 			
-			System.out.println("todo eins abgezogen: " + this.todo);
+			////System.out.println("todo eins abgezogen: " + this.todo);
 		}
 		
 		this.visited[start] = true;
 		
 		result.add(start); // füge aktuellen punkt ein
 		
-		System.out.println("Weg bisher: " + result.toString());
+		////System.out.println("Weg bisher: " + result.toString());
 		
 		ArrayList<Integer> min = new ArrayList<Integer>();
 		min.add(-1);
@@ -55,16 +55,17 @@ public class NearestNeighborSolver {
 		
 		for(int p = 0; p < route[0].length; p++) { // ermittle alle Punktbeziehungen
 			int a_min = min.get(0);
-			System.out.println("Punkt [" + start + "] kostet zu ["+p+"]: " + route[start][p] + " ### " + result.contains(p) );
+			////System.out.println("Punkt [" + start + "] kostet zu ["+p+"]: " + route[start][p] + " ### " + result.contains(p) );
 			if (route[start][p] >= 0) { // Punkt erreichtbar?
 				if(!result.contains(p)) { // Punkt bekannt?
+					++unknownPaths;
 					
-					System.out.println("Erreichbare unbekannte Punkte: " + (++unknownPaths)); 
+					////System.out.println("Erreichbare unbekannte Punkte: " + unknownPaths); 
 					
 					if ( (a_min < 0) || (route[start][p] <= route[start][a_min]) ) { // neues Minimum?
-						System.out.println("Minium!");
+						////System.out.println("Minium!");
 						if (a_min == -1 || route[start][p] < route[start][a_min]) { // leere Liste, wenn wir ein vorläufig absolutes Minimum gefunden haben
-							System.out.println("clear");
+							////System.out.println("clear");
 							min.clear();
 						}
 						
@@ -83,18 +84,18 @@ public class NearestNeighborSolver {
 			boolean dead;
 			Random rnd = new Random();
 			
-			System.out.println("Sackgasse, bisher besucht: " + java.util.Arrays.toString(this.visited));
+			////System.out.println("Sackgasse, bisher besucht: " + java.util.Arrays.toString(this.visited));
 			
-			System.out.println("Tote Punkte: " + java.util.Arrays.toString(this.dead));
+			////System.out.println("Tote Punkte: " + java.util.Arrays.toString(this.dead));
 			
 			do {
 				rndNode = rnd.nextInt(this.visited.length);
 				visited = this.visited[rndNode];
 				dead = this.dead[rndNode];
-				System.out.println("Random: " + rndNode);
+				////System.out.println("Random: " + rndNode);
 			} while ( visited == false || rndNode == start || dead == true ); // andere unbekannte, nicht tote Punkte suchen
 			
-			System.out.println("Nächster Random Punkt, da Sackgasse: " + rndNode);
+			////System.out.println("Nächster Random Punkt, da Sackgasse: " + rndNode);
 			
 			Iterator<Integer> i = this.result.descendingIterator();
 			
@@ -103,7 +104,7 @@ public class NearestNeighborSolver {
 			LinkedList<Integer> queue = new LinkedList<Integer>();
 			while(i.hasNext()) { // wir laufen den bekannten Weg zurück um am ermittelten, zufälligen Punkt weiterzumachen
 				next = i.next();
-				System.out.println("Next: " + next);
+				////System.out.println("Next: " + next);
 				this.distance += this.route[s][next];
 				
 				if(next == rndNode)
@@ -111,7 +112,7 @@ public class NearestNeighborSolver {
 				
 				queue.add(next);
 				s = next;
-				System.out.println("S: " + s);
+				////System.out.println("S: " + s);
 			}
 			this.result.addAll(queue);
 			
@@ -124,8 +125,8 @@ public class NearestNeighborSolver {
 		if (unknownPaths == 1) // Falls es nur noch einen unbekannten Weg gibt, gehen wir nun diesen entlang.
 			this.dead[start] = true;
 		
-		System.out.println("Punkt [" + start + "] Minima: " + min.toString());
-		System.out.println(this.route[start][min.get(0)]);
+		////System.out.println("Punkt [" + start + "] Minima: " + min.toString());
+		////System.out.println(this.route[start][min.get(0)]);
 		this.distance += this.route[start][min.get(0)]; // zähle Distanz die wir zurücklegen
 		this.solve(min.get(0)); // mache am nächsten Punkt weiter
 		
@@ -207,17 +208,14 @@ public class NearestNeighborSolver {
 		long runtime = System.currentTimeMillis();
 		
 		//NearestNeighborSolver n = new NearestNeighborSolver(route);
-		//System.out.println("Route von (" + 0 + "): " + n.solve(0).toString());
+		//////System.out.println("Route von (" + 0 + "): " + n.solve(0).toString());
 		
 		for(int i = 0; i < cntPoints; i++) { // Dauert mit großem Bsp Array ca 16 Sek 
 			//for(int j = 0; j < 1000; j++) {
 				NearestNeighborSolver n = new NearestNeighborSolver(route);
 				System.out.println("Route von (" + i + "): " + n.solve(i).toString());
-				System.out.println("Distanz: " + n.getDinstance() );
-			//	System.out.println("\n %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% \n %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n");
+				System.out.println("Distanz: " + n.getDistance() );
 			//}
-			
-			System.out.println("########################################## \n##########################################\n");
 		}
 		
 		runtime = System.currentTimeMillis() - runtime;
@@ -226,7 +224,7 @@ public class NearestNeighborSolver {
 		
 	}
 	
-	public double getDinstance() {
+	public double getDistance() {
 		return this.distance;
 	}
 

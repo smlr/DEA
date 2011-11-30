@@ -75,7 +75,7 @@ public class NearestNeighborSolver extends Thread implements Runnable {
 	
 	public String getResult() {
 		
-		return this.startpoint + ": " + this.getLocalDinstance() + ". Strecke: " + this.__toString();
+		return this.startpoint + ": " + this.getLocalDistance() + ". Strecke: " + this.__toString();
 	}
 	
 	public LinkedList<Integer> solve(int start) {
@@ -182,7 +182,7 @@ public class NearestNeighborSolver extends Thread implements Runnable {
 		return result;
 	}
 
-	public double getLocalDinstance() {
+	public double getLocalDistance() {
 		return this.localDistance;
 	}
 	
