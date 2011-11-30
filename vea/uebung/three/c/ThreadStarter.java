@@ -1,7 +1,11 @@
 package vea.uebung.three.c;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class ThreadStarter implements Runnable {
 	
@@ -16,7 +20,7 @@ public class ThreadStarter implements Runnable {
 			
 		ThreadStarter ts = new ThreadStarter();
 		
-		ts.pool = Executors.newCachedThreadPool();
+		ts.pool = Executors.newFixedThreadPool(2);
 		
 		int cntPoints = 8;
 		
@@ -71,25 +75,28 @@ public class ThreadStarter implements Runnable {
 		int cntPoints = this.route.length;
 		
 		long runtime = System.currentTimeMillis();
-		
-		NearestNeighborSolver[] threads = new NearestNeighborSolver[cntPoints];
-			
+				
+	    List<Future<NearestNeighborSolver>> tasks = new ArrayList<Future<NearestNeighborSolver>>();
+	    NearestNeighborSolver n;
+	    
 		try {
+		
 			for (int i = 0; i < cntPoints; i++) {
 				if (i == 0) {
-					threads[i] = new NearestNeighborSolver(i, route);
+					n = new NearestNeighborSolver(i, route);
 				} else {
-					threads[i] = new NearestNeighborSolver(i);
+					n = new NearestNeighborSolver(i);
 				}
-		
-				this.pool.execute(threads[i]);
 				
-				String get = this.pool.submit(threads[i].getResult());
+				Future<NearestNeighborSolver> future = this.pool.submit(n, n);
 				
-				System.out.println(threads[i].getResult());
+				tasks.add(future);
 			}
 			
-			
+			for (Future<NearestNeighborSolver> t : tasks) {
+				NearestNeighborSolver p = t.get();
+				System.out.println(p.getResult());
+			}	
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -99,12 +106,12 @@ public class ThreadStarter implements Runnable {
 		}
 	
 		
-		for(int i = 0; i < cntPoints; i++) {
+		//for(int i = 0; i < cntPoints; i++) {
 			//System.out.println(i + ": " + threads[i].getLocalDinstance() + ". Strecke: " + threads[i].__toString());
-		}
+		//}
 		
 		
-		System.out.print("Bestes Ergebniss an Startpunkt " + threads[0].bestSolution.getFirst() + " mit Kosten von " + NearestNeighborSolver.distance + ". Strecke: ");
+		System.out.print("Bestes Ergebniss an Startpunkt " + NearestNeighborSolver.bestSolution.getFirst() + " mit Kosten von " + NearestNeighborSolver.distance + ". Strecke: ");
 		System.out.println(NearestNeighborSolver.bestSolution.toString());
 				
 		runtime = System.currentTimeMillis() - runtime;
