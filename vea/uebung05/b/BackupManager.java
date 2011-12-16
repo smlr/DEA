@@ -73,16 +73,13 @@ public class BackupManager {
 			}
 
 			con.commit();
-
+			con.setAutoCommit(true);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-
 		}
-
 	}
 }
