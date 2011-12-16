@@ -46,6 +46,7 @@ public class CustomerBean {
 		
 		Document document = builder.newDocument();
 		Element cbElement = cb.toXML(document);
+		document.appendChild(cbElement);
 		
 		System.out.println(cb.toString(document));
 		
@@ -61,8 +62,8 @@ public class CustomerBean {
 		cb2.setName("hansdampf");
 		
 		Document document2 = builder.newDocument();
-		cb2.toXML(document2);
-		
+		Element cbElement2 = cb2.toXML(document2);
+		document2.appendChild(cbElement2);
 		System.out.println(cb2.toString(document2));
 	}
 	
@@ -93,8 +94,6 @@ public class CustomerBean {
 		Element zipElement = document.createElement("postalcode");
 		zipElement.setTextContent(Integer.toString(this.postalcode));
 		cbElement.appendChild(zipElement);
-		
-		document.appendChild(cbElement);
 		
 		return cbElement;
 		
